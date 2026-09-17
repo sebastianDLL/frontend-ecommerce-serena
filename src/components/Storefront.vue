@@ -419,7 +419,7 @@ const whatsappLink = computed(() => {
 				<nav class="header-nav" aria-label="Navegación principal">
 					<a href="#coleccion">Colección</a>
 					<a href="#beneficios">Por qué SERENA</a>
-					<a href="#nosotros">Nuestra Esencia</a>
+					<a href="/nosotros">Nuestra Esencia</a>
 					<a href="#contacto">Contacto</a>
 				</nav>
 
@@ -1121,7 +1121,7 @@ const whatsappLink = computed(() => {
 						<li><a href="#inicio">Inicio</a></li>
 						<li><a href="#coleccion">Colección Completa</a></li>
 						<li><a href="#beneficios">Propuesta de Valor</a></li>
-						<li><a href="#nosotros">Nuestra Esencia</a></li>
+						<li><a href="/nosotros">Nuestra Esencia</a></li>
 					</ul>
 				</div>
 
