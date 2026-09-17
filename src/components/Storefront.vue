@@ -1122,6 +1122,8 @@ const whatsappLink = computed(() => {
 						<li><a href="#coleccion">Colección Completa</a></li>
 						<li><a href="#beneficios">Propuesta de Valor</a></li>
 						<li><a href="/nosotros">Nuestra Esencia</a></li>
+						<li><a href="/privacidad">Política de Privacidad</a></li>
+						<li><a href="/condiciones">Condiciones del Servicio</a></li>
 					</ul>
 				</div>
 
