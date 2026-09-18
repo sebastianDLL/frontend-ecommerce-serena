@@ -30,9 +30,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 				const data = await response.json();
 				if (typeof data?.message === 'string') message = data.message;
 				else if (Array.isArray(data?.message)) message = data.message.join('. ');
-			} catch {
-				// La respuesta de error no era JSON: se conserva el mensaje genérico.
-			}
+			} catch {}
 			throw new ApiError(message, response.status);
 		}
 
