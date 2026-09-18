@@ -3,23 +3,23 @@ const heroImage = 'https://images.unsplash.com/photo-1603006905003-be475563bc59?
 
 const badges = [
 	{
-		label: 'Cera de Soya Pura',
-		icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+		label: 'Cera de soya pura',
+		icon: '<path d="M4 20c0-8.5 6.2-14.6 16-15.5C20 14.5 13.8 20 4 20z"></path><path d="M4 20c3.2-5.4 7.2-8.6 12.4-10.2"></path>',
 	},
 	{
-		label: 'Libre de Tóxicos',
-		icon: 'M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0 -20 0',
+		label: 'Libre de tóxicos',
+		icon: '<path d="M12 3.2c3.3 4.1 5.6 6.9 5.6 10a5.6 5.6 0 0 1-11.2 0c0-3.1 2.3-5.9 5.6-10z"></path><path d="M9.6 13.6a2.4 2.4 0 0 0 2.4 2.4"></path>',
 	},
 	{
-		label: 'Hecho con Amor',
-		icon: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',
+		label: 'Vertido a mano',
+		icon: '<path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"></path><path d="M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"></path>',
 	},
 ];
 ---
 
 <section id="inicio" class="hero">
 	<div class="hero-copy">
-		<span class="eyebrow">Boutique Aromática Artesanal</span>
+		<span class="eyebrow">Boutique aromática artesanal</span>
 		<h1 class="hero-title">
 			Velas creadas para pausar y <em>volver a ti.</em>
 		</h1>
@@ -29,19 +29,20 @@ const badges = [
 		</p>
 		<div class="hero-actions">
 			<a href="#coleccion" class="primary-button">
-				<span>Explorar Colección</span>
-				<span>↓</span>
+				<span>Explorar colección</span>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+					<path d="M12 5v14"></path>
+					<path d="M5 12l7 7 7-7"></path>
+				</svg>
 			</a>
 			<a href="#beneficios" class="secondary-button">
-				<span>Conocer Más</span>
+				<span>Conocer más</span>
 			</a>
 		</div>
 		<div class="hero-badges">
 			{badges.map((badge) => (
 				<div class="hero-badge-item">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d={badge.icon} />
-					</svg>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" set:html={badge.icon} />
 					<span>{badge.label}</span>
 				</div>
 			))}
@@ -49,9 +50,9 @@ const badges = [
 	</div>
 
 	<div class="hero-visual">
-		<img src={heroImage} alt="Vela artesanal SERENA encendida en ambiente cálido" />
+		<img src={heroImage} alt="Vela artesanal SERENA encendida en un ambiente cálido" />
 		<div class="hero-float-card">
-			<p class="card-tag">Aroma Destacado</p>
+			<p class="card-tag">Aroma destacado</p>
 			<h4>Vela Calma & Lavanda</h4>
 			<p class="card-sub">Mezcla botánica relajante con más de 40 horas de luz suave.</p>
 		</div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useScrollLock } from '../../composables/useScrollLock';
 import { cartCount, cartStore, closeCartDrawer, hydrateCart, openCartDrawer } from '../../stores/cart';
 import CartDrawer from './CartDrawer.vue';
 import CheckoutModal from './CheckoutModal.vue';
@@ -10,6 +11,10 @@ const checkoutOpen = ref(false);
 const orderCode = ref<string | null>(null);
 const customerName = ref('');
 const mounted = ref(false);
+
+const overlayOpen = computed(() => cartStore.drawerOpen || checkoutOpen.value || Boolean(orderCode.value));
+
+useScrollLock(overlayOpen);
 
 function handleSuccess(code: string, name: string) {
 	orderCode.value = code;

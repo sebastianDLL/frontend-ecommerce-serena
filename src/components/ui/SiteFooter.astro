@@ -3,63 +3,42 @@ import { BRAND_NAME, CONTACT } from '../../lib/constants';
 
 const year = new Date().getFullYear();
 
-const navigation = [
-	{ href: '/', label: 'Inicio' },
-	{ href: '/#coleccion', label: 'Colección Completa' },
-	{ href: '/#beneficios', label: 'Propuesta de Valor' },
-	{ href: '/nosotros', label: 'Nuestra Esencia' },
-	{ href: '/privacidad', label: 'Política de Privacidad' },
-	{ href: '/condiciones', label: 'Condiciones del Servicio' },
+const explore = [
+	{ href: '/#coleccion', label: 'Colección completa' },
+	{ href: '/#beneficios', label: 'Por qué SERENA' },
+	{ href: '/nosotros', label: 'Nuestra esencia' },
+	{ href: '/privacidad', label: 'Política de privacidad' },
+	{ href: '/condiciones', label: 'Condiciones del servicio' },
 ];
-
-const collections = [
-	{ href: '/?categoria=Aromáticas#coleccion', label: 'Aromáticas' },
-	{ href: '/?categoria=Colección Exclusiva#coleccion', label: 'Exclusivas' },
-	{ href: '/?categoria=Rituales#coleccion', label: 'Rituales' },
-	{ href: '/?categoria=Edición Regalo#coleccion', label: 'Kits de Regalo' },
-];
-
-const badges = ['🌿 100% Cera de Soya', '🇧🇴 Hecho en Bolivia', '📦 Envío Seguro'];
 ---
 
 <footer id="contacto" class="site-footer">
 	<div class="footer-inner">
 		<div class="footer-brand">
-			<img src="/Original_1-8.png" alt="SERENA Logo" />
+			<img src="/Original_1-8.png" alt="SERENA" />
 			<p>
 				Velas aromáticas artesanales elaboradas con cera de soya botánica y fragancias conscientes para transformar tu
 				bienestar cotidiano.
 			</p>
 		</div>
 
-		<div class="footer-col">
-			<h4>Navegación</h4>
+		<nav class="footer-col" aria-label="Enlaces del sitio">
+			<h4>Explorar</h4>
 			<ul>
-				{navigation.map((link) => (
+				{explore.map((link) => (
 					<li>
 						<a href={link.href}>{link.label}</a>
 					</li>
 				))}
 			</ul>
-		</div>
+		</nav>
 
 		<div class="footer-col">
-			<h4>Colecciones</h4>
-			<ul>
-				{collections.map((link) => (
-					<li>
-						<a href={link.href}>{link.label}</a>
-					</li>
-				))}
-			</ul>
-		</div>
-
-		<div class="footer-col">
-			<h4>Atención al Cliente</h4>
+			<h4>Atención al cliente</h4>
 			<ul>
 				<li>
 					<a href={CONTACT.whatsappUrl} target="_blank" rel="noopener noreferrer">
-						WhatsApp Directo
+						WhatsApp directo
 					</a>
 				</li>
 				<li>
@@ -79,10 +58,17 @@ const badges = ['🌿 100% Cera de Soya', '🇧🇴 Hecho en Bolivia', '📦 Env
 		<p>
 			© {year} {BRAND_NAME}. Todos los derechos reservados.
 		</p>
-		<div class="footer-badges">
-			{badges.map((badge) => (
-				<span class="footer-badge-tag">{badge}</span>
-			))}
+		<div class="footer-meta">
+			<span class="footer-badge-tag">Cera de soya 100% vegetal</span>
+			<span class="footer-badge-tag">Hecho en Bolivia</span>
+			<span class="footer-badge-tag">Empaque reciclable</span>
 		</div>
+		<a class="footer-top-link" href="#contenido">
+			Volver arriba
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+				<path d="M12 19V5"></path>
+				<path d="M5 12l7-7 7 7"></path>
+			</svg>
+		</a>
 	</div>
 </footer>

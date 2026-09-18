@@ -1,24 +1,24 @@
 ---
 const pillars = [
 	{
-		title: 'Cera 100% de Soya',
+		title: 'Cera 100% de soya',
 		text: 'Combustión limpia y lenta, sin derivados del petróleo ni humos negros nocivos.',
-		icon: '<path d="M12 2v8"></path><path d="M4.93 10.93a10 10 0 0 0 14.14 0"></path><path d="M2 18h20"></path>',
+		icon: '<path d="M4 20c0-8.5 6.2-14.6 16-15.5C20 14.5 13.8 20 4 20z"></path><path d="M4 20c3.2-5.4 7.2-8.6 12.4-10.2"></path>',
 	},
 	{
-		title: 'Esencias Botánicas',
+		title: 'Esencias botánicas',
 		text: 'Aceites concentrados con notas de aromaterapia que equilibran tus emociones.',
-		icon: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>',
+		icon: '<path d="M12 21c-4.4-2.4-7-5.4-7-8.8a7 7 0 0 1 14 0c0 3.4-2.6 6.4-7 8.8z"></path><path d="M12 3.2v5"></path>',
 	},
 	{
-		title: 'Artesanía Cuidadosa',
+		title: 'Artesanía cuidadosa',
 		text: 'Cada pieza es vertida a mano en pequeños lotes garantizando máxima calidad.',
-		icon: '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>',
+		icon: '<path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"></path><path d="M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"></path>',
 	},
 	{
-		title: 'Envíos Seguros',
+		title: 'Envíos seguros',
 		text: 'Empaque ecológico especialmente protegido para llegar perfecto a tu hogar.',
-		icon: '<rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>',
+		icon: '<path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"></path><path d="M3.5 8.5 12 13l8.5-4.5"></path><path d="M12 13v7"></path>',
 	},
 ];
 ---
@@ -28,7 +28,7 @@ const pillars = [
 		{pillars.map((pillar) => (
 			<div class="pillar-item">
 				<div class="pillar-icon">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={pillar.icon} />
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" set:html={pillar.icon} />
 				</div>
 				<div>
 					<h3>{pillar.title}</h3>

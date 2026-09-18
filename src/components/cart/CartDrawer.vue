@@ -32,7 +32,7 @@ function addLine(product: Producto) {
 	>
 		<div class="drawer-heading">
 			<div>
-				<span class="eyebrow">Tu Compra</span>
+				<span class="eyebrow">Tu compra</span>
 				<h2>
 					Carrito
 					<small>({{ cartCount }} {{ cartCount === 1 ? 'artículo' : 'artículos' }})</small>
@@ -43,8 +43,15 @@ function addLine(product: Producto) {
 			</button>
 		</div>
 
-		<div v-if="!cartStore.lines.length" class="empty-state" style="margin: 40px 24px">
-			<div style="font-size: 38px; margin-bottom: 12px">🕯️</div>
+		<div v-if="!cartStore.lines.length" class="empty-state cart-empty">
+			<span class="empty-state-icon" aria-hidden="true">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+					<path
+						d="M12 3c1.5 2.8 3.9 4.3 3.9 7.6A3.9 3.9 0 0 1 12 14.5a3.9 3.9 0 0 1-3.9-3.9C8.1 7.3 10.5 5.8 12 3z"
+					></path>
+					<path d="M12 14.5V21"></path>
+				</svg>
+			</span>
 			<h3>Tu carrito está esperando</h3>
 			<p>Aún no has agregado velas aromáticas a tu selección.</p>
 			<button class="primary-button" type="button" @click="closeCartDrawer">Ver catálogo de velas</button>
@@ -76,14 +83,18 @@ function addLine(product: Producto) {
 				<span>{{ cartCount }}</span>
 			</div>
 			<div class="cart-summary-row total">
-				<span>Total a Pagar</span>
+				<span>Total a pagar</span>
 				<strong>{{ formatPrice(cartTotal) }}</strong>
 			</div>
 			<p class="shipping-perk">
-				<span>🌿 Empaque artesanal seguro incluido</span>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+					<path d="M12 21c-4.4-2.4-7-5.4-7-8.8a7 7 0 0 1 14 0c0 3.4-2.6 6.4-7 8.8z"></path>
+					<path d="M12 3v5"></path>
+				</svg>
+				<span>Empaque artesanal seguro incluido</span>
 			</p>
 			<button id="checkout-trigger-btn" class="primary-button" type="button" @click="emit('checkout')">
-				<span>Proceder al Pago</span>
+				<span>Proceder al pago</span>
 				<span>→</span>
 			</button>
 		</div>
