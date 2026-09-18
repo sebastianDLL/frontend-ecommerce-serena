@@ -1,0 +1,40 @@
+---
+import CartWidget from '../cart/CartWidget.vue';
+import { BRAND_TAGLINE } from '../../lib/constants';
+
+interface Props {
+	active?: 'home' | 'nosotros' | 'privacidad' | 'condiciones';
+	withCart?: boolean;
+}
+
+const { active, withCart = false } = Astro.props;
+
+const links = [
+	{ href: '/', label: 'Inicio', key: 'home' },
+	{ href: '/#coleccion', label: 'Colección', key: 'coleccion' },
+	{ href: '/#beneficios', label: 'Por qué SERENA', key: 'beneficios' },
+	{ href: '/nosotros', label: 'Nuestra Esencia', key: 'nosotros' },
+	{ href: '/#contacto', label: 'Contacto', key: 'contacto' },
+];
+---
+
+<header class="site-header">
+	<div class="header-inner">
+		<a class="brand" href="/" aria-label="SERENA, inicio">
+			<img src="/Original_1-8.png" alt="SERENA - Velas para volver a ti" />
+		</a>
+
+		<nav class="header-nav" aria-label="Navegación principal">
+			{links.map((link) => (
+				<a href={link.href} class={active === link.key ? 'active' : undefined}>
+					{link.label}
+				</a>
+			))}
+		</nav>
+
+		<div class="header-actions">
+			<span class="header-caption">{BRAND_TAGLINE}</span>
+			{withCart && <CartWidget client:idle />}
+		</div>
+	</div>
+</header>

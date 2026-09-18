@@ -1,0 +1,59 @@
+---
+const heroImage = 'https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=1200&q=85';
+
+const badges = [
+	{
+		label: 'Cera de Soya Pura',
+		icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+	},
+	{
+		label: 'Libre de Tóxicos',
+		icon: 'M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0 -20 0',
+	},
+	{
+		label: 'Hecho con Amor',
+		icon: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',
+	},
+];
+---
+
+<section id="inicio" class="hero">
+	<div class="hero-copy">
+		<span class="eyebrow">Boutique Aromática Artesanal</span>
+		<h1 class="hero-title">
+			Velas creadas para pausar y <em>volver a ti.</em>
+		</h1>
+		<p class="hero-text">
+			Encender una vela es regalarte un momento de presencia. Nuestras velas son vertidas a mano con cera de soya 100%
+			vegetal, pabilos de algodón ecológico y esencias botánicas para envolver tu hogar en calma.
+		</p>
+		<div class="hero-actions">
+			<a href="#coleccion" class="primary-button">
+				<span>Explorar Colección</span>
+				<span>↓</span>
+			</a>
+			<a href="#beneficios" class="secondary-button">
+				<span>Conocer Más</span>
+			</a>
+		</div>
+		<div class="hero-badges">
+			{badges.map((badge) => (
+				<div class="hero-badge-item">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d={badge.icon} />
+					</svg>
+					<span>{badge.label}</span>
+				</div>
+			))}
+		</div>
+	</div>
+
+	<div class="hero-visual">
+		<img src={heroImage} alt="Vela artesanal SERENA encendida en ambiente cálido" />
+		<div class="hero-float-card">
+			<p class="card-tag">Aroma Destacado</p>
+			<h4>Vela Calma & Lavanda</h4>
+			<p class="card-sub">Mezcla botánica relajante con más de 40 horas de luz suave.</p>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,88 @@
+---
+import { BRAND_NAME, CONTACT } from '../../lib/constants';
+
+const year = new Date().getFullYear();
+
+const navigation = [
+	{ href: '/', label: 'Inicio' },
+	{ href: '/#coleccion', label: 'Colección Completa' },
+	{ href: '/#beneficios', label: 'Propuesta de Valor' },
+	{ href: '/nosotros', label: 'Nuestra Esencia' },
+	{ href: '/privacidad', label: 'Política de Privacidad' },
+	{ href: '/condiciones', label: 'Condiciones del Servicio' },
+];
+
+const collections = [
+	{ href: '/?categoria=Aromáticas#coleccion', label: 'Aromáticas' },
+	{ href: '/?categoria=Colección Exclusiva#coleccion', label: 'Exclusivas' },
+	{ href: '/?categoria=Rituales#coleccion', label: 'Rituales' },
+	{ href: '/?categoria=Edición Regalo#coleccion', label: 'Kits de Regalo' },
+];
+
+const badges = ['🌿 100% Cera de Soya', '🇧🇴 Hecho en Bolivia', '📦 Envío Seguro'];
+---
+
+<footer id="contacto" class="site-footer">
+	<div class="footer-inner">
+		<div class="footer-brand">
+			<img src="/Original_1-8.png" alt="SERENA Logo" />
+			<p>
+				Velas aromáticas artesanales elaboradas con cera de soya botánica y fragancias conscientes para transformar tu
+				bienestar cotidiano.
+			</p>
+		</div>
+
+		<div class="footer-col">
+			<h4>Navegación</h4>
+			<ul>
+				{navigation.map((link) => (
+					<li>
+						<a href={link.href}>{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h4>Colecciones</h4>
+			<ul>
+				{collections.map((link) => (
+					<li>
+						<a href={link.href}>{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h4>Atención al Cliente</h4>
+			<ul>
+				<li>
+					<a href={CONTACT.whatsappUrl} target="_blank" rel="noopener noreferrer">
+						WhatsApp Directo
+					</a>
+				</li>
+				<li>
+					<a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+				</li>
+				<li>
+					<span>{CONTACT.schedule}</span>
+				</li>
+				<li>
+					<span>{CONTACT.shipping}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="footer-bottom">
+		<p>
+			© {year} {BRAND_NAME}. Todos los derechos reservados.
+		</p>
+		<div class="footer-badges">
+			{badges.map((badge) => (
+				<span class="footer-badge-tag">{badge}</span>
+			))}
+		</div>
+	</div>
+</footer>

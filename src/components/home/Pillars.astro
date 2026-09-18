@@ -1,0 +1,40 @@
+---
+const pillars = [
+	{
+		title: 'Cera 100% de Soya',
+		text: 'Combustión limpia y lenta, sin derivados del petróleo ni humos negros nocivos.',
+		icon: '<path d="M12 2v8"></path><path d="M4.93 10.93a10 10 0 0 0 14.14 0"></path><path d="M2 18h20"></path>',
+	},
+	{
+		title: 'Esencias Botánicas',
+		text: 'Aceites concentrados con notas de aromaterapia que equilibran tus emociones.',
+		icon: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>',
+	},
+	{
+		title: 'Artesanía Cuidadosa',
+		text: 'Cada pieza es vertida a mano en pequeños lotes garantizando máxima calidad.',
+		icon: '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>',
+	},
+	{
+		title: 'Envíos Seguros',
+		text: 'Empaque ecológico especialmente protegido para llegar perfecto a tu hogar.',
+		icon: '<rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>',
+	},
+];
+---
+
+<section id="beneficios" class="pillars-section" aria-label="Pilares de calidad">
+	<div class="pillars-grid">
+		{pillars.map((pillar) => (
+			<div class="pillar-item">
+				<div class="pillar-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" set:html={pillar.icon} />
+				</div>
+				<div>
+					<h3>{pillar.title}</h3>
+					<p>{pillar.text}</p>
+				</div>
+			</div>
+		))}
+	</div>
+</section>
