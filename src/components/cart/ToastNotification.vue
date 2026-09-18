@@ -15,6 +15,6 @@ function viewCart() {
 			<polyline points="22 4 12 14.01 9 11.01"></polyline>
 		</svg>
 		<p>{{ toastMessage }}</p>
-		<button type="button" @click="viewCart">Ver Carrito</button>
+		<button type="button" @click="viewCart">Ver carrito</button>
 	</aside>
 </template>

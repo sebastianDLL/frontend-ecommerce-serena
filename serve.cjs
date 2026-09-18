@@ -33,10 +33,17 @@ function findFile(reqPath) {
 	return null;
 }
 
+const notFoundPage = path.join(dir, '404.html');
+
 const server = http.createServer((req, res) => {
 	const filePath = findFile(req.url || '/');
 
 	if (!filePath) {
+		if (fs.existsSync(notFoundPage)) {
+			res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+			fs.createReadStream(notFoundPage).pipe(res);
+			return;
+		}
 		res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
 		res.end('Not found');
 		return;

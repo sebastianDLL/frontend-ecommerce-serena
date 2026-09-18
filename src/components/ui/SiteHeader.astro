@@ -26,7 +26,11 @@ const links = [
 
 		<nav class="header-nav" aria-label="Navegación principal">
 			{links.map((link) => (
-				<a href={link.href} class={active === link.key ? 'active' : undefined}>
+				<a
+					href={link.href}
+					class={active === link.key ? 'active' : undefined}
+					aria-current={active === link.key ? 'page' : undefined}
+				>
 					{link.label}
 				</a>
 			))}

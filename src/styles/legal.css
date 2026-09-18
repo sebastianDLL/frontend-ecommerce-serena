@@ -55,6 +55,7 @@
 	line-height: 1.8;
 	color: var(--serena-ink-muted);
 	margin-bottom: 14px;
+	max-width: 72ch;
 }
 
 .legal-content ul {
@@ -67,6 +68,7 @@
 	font-size: 15.5px;
 	line-height: 1.8;
 	margin-bottom: 6px;
+	max-width: 72ch;
 }
 
 .legal-content a {

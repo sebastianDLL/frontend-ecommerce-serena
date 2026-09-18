@@ -37,10 +37,17 @@ const {
 		<meta name="description" content={description} />
 		{keywords && <meta name="keywords" content={keywords} />}
 		{robots && <meta name="robots" content={robots} />}
+		<meta property="og:site_name" content="SERENA" />
+		<meta property="og:locale" content="es_BO" />
 		<meta property="og:title" content={ogTitle} />
 		<meta property="og:description" content={ogDescription} />
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:alt" content="Velas aromáticas artesanales SERENA" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={ogDescription} />
+		<meta name="twitter:image" content={ogImage} />
 		<meta name="theme-color" content="#2b595e" />
 		<title>{title}</title>
 	</head>

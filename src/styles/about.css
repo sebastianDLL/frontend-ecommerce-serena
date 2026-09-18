@@ -60,6 +60,8 @@ h1.about-hero-title em {
 	font-weight: 600;
 	color: var(--serena-terracotta);
 	line-height: 1.1;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
 }
 
 .about-stat span {
@@ -70,6 +72,18 @@ h1.about-hero-title em {
 
 .about-hero-visual {
 	position: relative;
+	isolation: isolate;
+}
+
+.about-hero-visual::after {
+	content: '';
+	position: absolute;
+	inset: auto -18px -18px auto;
+	width: 62%;
+	height: 62%;
+	z-index: -1;
+	border-radius: var(--radius-xl);
+	background: linear-gradient(150deg, rgba(180, 116, 60, 0.16), rgba(43, 89, 94, 0.12));
 }
 
 .about-hero-visual img {
@@ -119,8 +133,8 @@ h1.about-hero-title em {
 /* Nuestra Historia */
 .about-story {
 	background: var(--serena-cream-soft);
-	margin-top: 100px;
-	padding: 90px 32px;
+	margin-top: 110px;
+	padding: 88px 32px 104px;
 }
 
 .about-story-inner {
@@ -161,12 +175,13 @@ h1.about-hero-title em {
 	line-height: 1.75;
 	color: var(--serena-ink-muted);
 	margin-bottom: 16px;
+	max-width: 68ch;
 }
 
 /* Nuestros Valores */
 .about-values {
 	max-width: var(--container-max);
-	margin: 100px auto 0;
+	margin: 110px auto 0;
 	padding: 0 32px;
 }
 
@@ -205,25 +220,21 @@ h1.about-hero-title em {
 
 .value-card {
 	background: var(--serena-white);
-	border: 1px solid var(--serena-linen-subtle);
-	border-radius: 22px;
-	padding: 32px 26px;
-	box-shadow: var(--shadow-subtle);
+	border-radius: var(--radius-lg);
+	padding: 34px 26px 38px;
 	transition: var(--transition-smooth);
 }
 
 .value-card:hover {
 	transform: translateY(-6px);
-	box-shadow: var(--shadow-card-hover);
-	border-color: var(--serena-linen);
+	box-shadow: var(--shadow-card);
 }
 
 .value-icon {
 	width: 52px;
 	height: 52px;
-	border-radius: 16px;
-	background: var(--serena-paper);
-	border: 1px solid var(--serena-linen-subtle);
+	border-radius: var(--radius-md);
+	background: var(--serena-cream-soft);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -252,10 +263,23 @@ h1.about-hero-title em {
 
 /* Nuestro Proceso */
 .about-process {
+	position: relative;
+	isolation: isolate;
 	background: var(--serena-teal);
 	color: var(--serena-paper);
-	margin-top: 100px;
-	padding: 90px 32px;
+	margin-top: 110px;
+	padding: 88px 32px 104px;
+	overflow: hidden;
+}
+
+.about-process::before {
+	content: '';
+	position: absolute;
+	inset: -20% -10% auto -10%;
+	height: 120%;
+	z-index: -1;
+	pointer-events: none;
+	background: radial-gradient(36% 58% at 50% 0%, rgba(255, 249, 238, 0.13), transparent 70%);
 }
 
 .about-process-inner {
@@ -299,10 +323,9 @@ h1.about-hero-title em {
 }
 
 .process-step {
-	background: rgba(255, 249, 238, 0.06);
-	border: 1px solid rgba(255, 249, 238, 0.16);
-	border-radius: 22px;
-	padding: 36px 30px;
+	background: rgba(255, 249, 238, 0.05);
+	border-radius: var(--radius-lg);
+	padding: 36px 30px 40px;
 }
 
 .step-number {
@@ -313,6 +336,8 @@ h1.about-hero-title em {
 	color: var(--serena-cream);
 	opacity: 0.85;
 	margin-bottom: 18px;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.02em;
 }
 
 .process-step h3 {
@@ -332,19 +357,31 @@ h1.about-hero-title em {
 /* Llamado a la acción */
 .about-cta {
 	max-width: var(--container-max);
-	margin: 100px auto;
+	margin: 110px auto 120px;
 	padding: 0 32px;
 }
 
 .about-cta-inner {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
 	background: var(--serena-cream-soft);
-	border: 1px solid var(--serena-linen-subtle);
-	border-radius: 28px;
-	padding: 72px 48px;
+	border-radius: var(--radius-xl);
+	padding: 76px 48px 80px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.about-cta-inner::before {
+	content: '';
+	position: absolute;
+	inset: auto -10% -40% -10%;
+	height: 120%;
+	z-index: -1;
+	pointer-events: none;
+	background: radial-gradient(30% 60% at 50% 100%, rgba(180, 116, 60, 0.14), transparent 70%);
 }
 
 .about-cta-inner h2 {

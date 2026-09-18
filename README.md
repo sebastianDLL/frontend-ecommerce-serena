@@ -48,11 +48,16 @@ src/
 │   ├── catalog/                # Catalog.vue + ProductDetailModal.vue  (isla client:visible)
 │   └── cart/                   # CartWidget.vue + CartDrawer, CheckoutModal, SuccessModal, Toast
 ├── stores/                     # cart.ts, catalog.ts, toast.ts (estado reactivo compartido)
-├── composables/                # useCheckout.ts, useQrPayment.ts (lógica con cleanup)
+├── composables/                # useCheckout.ts, useQrPayment.ts, useScrollLock.ts (lógica con cleanup)
 ├── lib/                        # api.ts (cliente tipado), config.ts, constants.ts, format.ts, types.ts
 ├── styles/                     # global.css (design system), about.css, legal.css
-└── pages/                      # index, nosotros, privacidad, condiciones
+└── pages/                      # index, nosotros, privacidad, condiciones, 404
 ```
+
+El sistema de diseño vive en `src/styles/global.css`: tokens de color, radios, sombras con tinte teal,
+escala tipográfica, esqueletos de carga, foco visible y `prefers-reduced-motion`. Las animaciones de
+entrada por scroll usan `animation-timeline: view()` (CSS puro, sin JS) y se degradan solas donde no hay
+soporte.
 
 ### Islas y estado compartido
 
@@ -101,7 +106,10 @@ explícita en lugar de publicar URLs a `localhost`.
 4. Checkout por QR → panel con polling; cerrar el modal detiene el polling; "Cancelar y volver" lo reinicia.
 5. Navegar a colecciones desde el footer (`/?categoria=...#coleccion`) → el filtro se aplica y la URL
    se limpia.
-6. `npm run build && node serve.cjs` → `/`, `/nosotros`, `/privacidad`, `/condiciones` responden 200.
+6. `npm run build && node serve.cjs` → `/`, `/nosotros`, `/privacidad`, `/condiciones` responden 200 y una
+   ruta inexistente responde 404 con la página de marca.
+7. Navegación por teclado: `Tab` desde el inicio muestra el enlace "Saltar al contenido"; los botones y
+   enlaces muestran anillo de foco; los overlays (drawer, modales) bloquean el scroll del fondo.
 
 ## Solución de problemas
 

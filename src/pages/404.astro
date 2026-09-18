@@ -1,0 +1,112 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const routes = [
+	{ href: '/#coleccion', label: 'Colección de velas' },
+	{ href: '/nosotros', label: 'Nuestra esencia' },
+	{ href: '/#contacto', label: 'Contacto' },
+];
+---
+
+<SiteLayout
+	title="Página no encontrada | SERENA"
+	description="La página que buscas no existe o cambió de dirección. Vuelve a la colección de velas aromáticas SERENA."
+	robots="noindex, follow"
+	active="home"
+>
+	<section class="not-found">
+		<span class="eyebrow">Error 404</span>
+		<h1 class="not-found-title">
+			Esta vela se apagó <em>por aquí.</em>
+		</h1>
+		<p class="not-found-text">
+			La dirección que abriste no existe o cambió de nombre. Puedes volver a la colección o seguir uno de estos caminos.
+		</p>
+
+		<div class="not-found-actions">
+			<a href="/" class="primary-button">
+				<span>Volver al inicio</span>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+					<path d="M5 12h14"></path>
+					<path d="M12 5l7 7-7 7"></path>
+				</svg>
+			</a>
+		</div>
+
+		<ul class="not-found-links">
+			{routes.map((route) => (
+				<li>
+					<a href={route.href}>{route.label}</a>
+				</li>
+			))}
+		</ul>
+	</section>
+</SiteLayout>
+
+<style>
+	.not-found {
+		max-width: 660px;
+		margin: 0 auto;
+		padding: 96px 32px 120px;
+		text-align: center;
+	}
+
+	.not-found-title {
+		font-family: var(--font-serif);
+		font-size: clamp(38px, 5vw, 64px);
+		font-weight: 600;
+		line-height: 1.08;
+		letter-spacing: -0.025em;
+		color: var(--serena-ink);
+		margin-bottom: 18px;
+	}
+
+	.not-found-title em {
+		color: var(--serena-teal);
+		font-style: italic;
+		font-weight: 400;
+	}
+
+	.not-found-text {
+		font-size: 16px;
+		line-height: 1.7;
+		color: var(--serena-ink-muted);
+		max-width: 48ch;
+		margin: 0 auto 32px;
+	}
+
+	.not-found-actions {
+		display: flex;
+		justify-content: center;
+	}
+
+	.not-found-links {
+		list-style: none;
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 24px;
+		margin-top: 32px;
+	}
+
+	.not-found-links a {
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--serena-ink-muted);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		text-decoration-color: var(--serena-linen);
+		transition: color 0.2s ease;
+	}
+
+	.not-found-links a:hover {
+		color: var(--serena-terracotta);
+		text-decoration-color: currentColor;
+	}
+
+	@media (max-width: 768px) {
+		.not-found {
+			padding: 64px 24px 88px;
+		}
+	}
+</style>
