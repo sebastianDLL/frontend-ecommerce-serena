@@ -88,6 +88,33 @@ soporte.
 El backend sirve imágenes en `/uploads/...`; `lib/format.ts` resuelve la URL absoluta a partir de
 `PUBLIC_API_URL`.
 
+## Panel de administración
+
+Rutas privadas bajo `/admin`, con layout propio (sidebar, sin header/footer de tienda) y `noindex`:
+
+| Ruta                 | Contenido                                                        |
+| :------------------- | :--------------------------------------------------------------- |
+| `/admin/login`       | Login JWT (`POST /auth/login`)                                   |
+| `/admin`             | Resumen: productos, stock bajo, categorías y ventas del día      |
+| `/admin/productos`   | CRUD de productos, filtros, stock y subida de imágenes (multipart) |
+| `/admin/categorias`  | CRUD de categorías con edición en línea                          |
+| `/admin/ventas`      | Listado, detalle expandible y anulación (restaura stock)         |
+
+Detalles de implementación:
+
+- `src/stores/session.ts` guarda `token` + usuario en `localStorage` (`serena:session:v1`) y se hidrata
+  al montar; `src/composables/useAdminGuard.ts` redirige a `/admin/login?redirect=...` cuando no hay
+  sesión y ante un `401` (el cliente limpia la sesión en `lib/admin-api.ts`).
+- Las islas del panel usan `client:load` y renderizan solo cuando el guard confirma la sesión.
+- La API admin vive en `src/lib/admin-api.ts` (añade `Authorization: Bearer`, normaliza los `numeric`
+  que Postgres devuelve como string y sube imágenes con `FormData`).
+- El guard es de cliente: es una barrera de UX, no de seguridad. La autorización real depende del
+  backend (hoy sin RBAC; ver pendientes).
+
+Para probar el panel hace falta un usuario. Si la base no tiene ninguno, se puede crear con
+`POST /usuarios` + `POST /roles` (endpoints abiertos en el backend actual) o desde el módulo de
+usuarios una vez se restrinja el acceso.
+
 ## Variables de entorno
 
 | Variable           | Tipo    | Descripción                                                                 |
@@ -110,6 +137,9 @@ explícita en lugar de publicar URLs a `localhost`.
    ruta inexistente responde 404 con la página de marca.
 7. Navegación por teclado: `Tab` desde el inicio muestra el enlace "Saltar al contenido"; los botones y
    enlaces muestran anillo de foco; los overlays (drawer, modales) bloquean el scroll del fondo.
+8. Entrar a `/admin` sin sesión → redirige a `/admin/login`. Iniciar sesión → vuelve a la ruta pedida.
+9. En el panel: crear/editar/eliminar un producto (con al menos una imagen), crear una categoría y
+   anular una venta; recargar → los cambios persisten y el catálogo público refleja stock/precio.
 
 ## Solución de problemas
 
@@ -128,14 +158,16 @@ npm run dev
 
 Regla práctica: nunca correr `npm run build` con el dev server activo; deténlo primero.
 
-## Pendientes conocidos (fuera del alcance del refactor)
+## Pendientes conocidos
 
 - **WhatsApp/contacto:** conviven dos números distintos (`wa.me/59170000000` para pedidos y
   `wa.me/573001234567` en footer/legales) y el texto `+591 57911147`. Falta definir el número real y
   unificarlo (hoy centralizado en `src/lib/constants.ts`).
 - **Pagos simulados en backend:** el QR se aprueba automáticamente a los ~8 s; aunque el cliente cierre
   el modal, la venta puede registrarse en el servidor. El frontend detiene su polling al cerrar.
-- **Autenticación/panel:** el backend expone login JWT, usuarios y roles, pero el frontend público aún
-  no tiene cuenta de usuario ni panel administrativo.
+- **Cuenta de cliente:** el panel administrativo ya usa `POST /auth/login`, pero la tienda pública sigue
+  sin cuenta de usuario ni historial de pedidos (el backend no filtra `GET /ventas` por usuario).
+- **Administración pendiente:** gestión de usuarios y roles dentro del panel; hoy solo hay productos,
+  categorías y ventas.
 - **Backend:** `synchronize: true`, CORS abierto y controllers de usuarios/roles sin guard (ver README
-  del backend).
+  del backend). El guard del panel es de cliente: cualquier usuario autenticado puede administrar.

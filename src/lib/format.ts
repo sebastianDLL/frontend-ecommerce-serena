@@ -16,8 +16,17 @@ const priceFormatter = new Intl.NumberFormat('es-BO', {
 	maximumFractionDigits: 0,
 });
 
+const dateTimeFormatter = new Intl.DateTimeFormat('es-BO', { dateStyle: 'short', timeStyle: 'short' });
+
 export function formatPrice(value: number): string {
 	return priceFormatter.format(Number(value));
+}
+
+export function formatDateTime(value: string | Date | null | undefined): string {
+	if (!value) return '—';
+	const date = value instanceof Date ? value : new Date(value);
+	if (Number.isNaN(date.getTime())) return '—';
+	return dateTimeFormatter.format(date);
 }
 
 export function imageUrl(image: string, index = 0): string {

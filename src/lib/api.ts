@@ -13,15 +13,16 @@ export class ApiError extends Error {
 	}
 }
 
-async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function request<T>(path: string, options: RequestInit = {}, timeoutMs = REQUEST_TIMEOUT_MS): Promise<T> {
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+	const timeout = setTimeout(() => controller.abort(), timeoutMs);
+	const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
 
 	try {
 		const response = await fetch(`${API_URL}/${path}`, {
 			...options,
 			signal: controller.signal,
-			headers: { 'Content-Type': 'application/json', ...options.headers },
+			headers: isFormData ? { ...options.headers } : { 'Content-Type': 'application/json', ...options.headers },
 		});
 
 		if (!response.ok) {
@@ -30,7 +31,9 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 				const data = await response.json();
 				if (typeof data?.message === 'string') message = data.message;
 				else if (Array.isArray(data?.message)) message = data.message.join('. ');
-			} catch {}
+			} catch {
+				// La respuesta de error no era JSON: se conserva el mensaje genérico.
+			}
 			throw new ApiError(message, response.status);
 		}
 

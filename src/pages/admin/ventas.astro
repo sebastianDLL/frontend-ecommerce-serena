@@ -1,0 +1,8 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminVentas from '../../components/admin/AdminVentas.vue';
+---
+
+<AdminLayout title="Ventas" section="ventas">
+	<AdminVentas client:load />
+</AdminLayout>

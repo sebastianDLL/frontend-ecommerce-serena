@@ -56,3 +56,52 @@ export interface QrVerificarResponse {
 	estado: QrEstadoRemoto;
 	venta?: Venta;
 }
+
+export interface UsuarioSesion {
+	id: number;
+	nombreUsuario: string;
+	email: string;
+	rolId?: number | null;
+	rol?: { id: number; nombre: string } | null;
+}
+
+export interface LoginResponse extends UsuarioSesion {
+	access_token: string;
+}
+
+export interface ProductoInput {
+	nombre: string;
+	descripcion: string;
+	precioUnitario: number;
+	stock: number;
+	idCategoria: number;
+	imagenes?: string[];
+}
+
+export interface CategoriaInput {
+	nombre: string;
+}
+
+export interface DetalleVentaAdmin {
+	id: number;
+	cantidad: number;
+	precioUnitario: number;
+	subtotal: number;
+	producto?: { id: number; nombre: string } | null;
+}
+
+export interface VentaAdmin {
+	id: number;
+	codigo: string | null;
+	totalVenta: number;
+	metodoPago: string;
+	estado: string;
+	fechaCreacion: string;
+	fechaAnulacion: string | null;
+	montoPagado: number;
+	cambio: number;
+	nombreCliente?: string | null;
+	documento?: string | null;
+	usuario?: { id: number; nombreUsuario: string } | null;
+	ventadetalles: DetalleVentaAdmin[];
+}

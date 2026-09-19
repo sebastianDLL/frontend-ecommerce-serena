@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AdminLogin from '../../components/admin/AdminLogin.vue';
+import '../../styles/admin.css';
+---
+
+<Layout
+	title="Acceso al panel | SERENA"
+	description="Acceso al panel de administración de SERENA."
+	robots="noindex, nofollow"
+>
+	<AdminLogin client:load />
+</Layout>

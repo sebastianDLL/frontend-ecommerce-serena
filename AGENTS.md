@@ -22,6 +22,10 @@ Read `README.md` for the full architecture. Key rules:
   persistence is hydrated on mount, not at module load, to keep SSR hydration stable.
 - Overlays rendered from the sticky header must be teleported to `body` (the header uses
   `backdrop-filter`, which breaks `position: fixed` descendants).
+- The admin panel lives under `src/pages/admin` + `src/components/admin` and uses `AdminLayout.astro`,
+  `src/styles/admin.css`, `lib/admin-api.ts` (Bearer token) and `stores/session.ts`. Every admin island
+  must call `useAdminGuard()` and render only when `authorized` is true. Never reuse `lib/api.ts`
+  fetch calls for authenticated endpoints; use `lib/admin-api.ts`.
 
 ## Verification
 
