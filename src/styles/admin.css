@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .admin-shell {
-	min-height: 100vh;
+	min-height: 100dvh;
 	display: grid;
 	grid-template-columns: 248px 1fr;
 	background: var(--serena-paper);
@@ -17,7 +17,7 @@
 	position: sticky;
 	top: 0;
 	z-index: 30;
-	height: 100vh;
+	height: 100dvh;
 	display: flex;
 	flex-direction: column;
 	gap: 28px;
@@ -31,14 +31,14 @@
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	padding: 0 10px;
+	padding: 0 12px;
 }
 
 .admin-brand img {
 	width: 38px;
 	height: 38px;
 	object-fit: contain;
-	border-radius: 50%;
+	border-radius: var(--radius-sm);
 	background: var(--serena-paper);
 	padding: 4px;
 }
@@ -94,6 +94,10 @@
 	color: var(--serena-paper);
 }
 
+.admin-nav-link:active {
+	transform: scale(0.98);
+}
+
 .admin-nav-link.active {
 	background: var(--serena-paper);
 	color: var(--serena-teal-dark);
@@ -105,7 +109,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	padding: 0 10px;
+	padding: 0 12px;
 }
 
 .admin-sidebar-footer a {
@@ -159,11 +163,13 @@
 }
 
 .admin-breadcrumb {
+	display: block;
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--serena-terracotta);
+	margin-bottom: 4px;
 }
 
 .admin-topbar-actions {
@@ -179,6 +185,18 @@
 	gap: 24px;
 }
 
+/* Ritmo vertical de cada vista (isla) del panel */
+.admin-view {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.admin-view > .form-error,
+.admin-view > .admin-feedback {
+	margin-bottom: 0;
+}
+
 /* --------------------------------------------------------------------------
    Usuario y botones
    -------------------------------------------------------------------------- */
@@ -192,7 +210,7 @@
 .admin-user-avatar {
 	width: 36px;
 	height: 36px;
-	border-radius: 50%;
+	border-radius: var(--radius-sm);
 	display: grid;
 	place-items: center;
 	background: var(--serena-teal);
@@ -236,6 +254,10 @@
 	color: var(--serena-teal);
 }
 
+.admin-button-ghost:active {
+	transform: scale(0.98);
+}
+
 .admin-button-ghost svg {
 	width: 15px;
 	height: 15px;
@@ -247,7 +269,6 @@
 
 .admin-card {
 	background: var(--serena-white);
-	border: 1px solid var(--serena-linen-subtle);
 	border-radius: var(--radius-md);
 	box-shadow: var(--shadow-subtle);
 	overflow: hidden;
@@ -280,9 +301,8 @@
 
 .admin-stat {
 	background: var(--serena-white);
-	border: 1px solid var(--serena-linen-subtle);
 	border-radius: var(--radius-md);
-	padding: 20px 22px;
+	padding: 22px 22px 24px;
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
@@ -303,6 +323,8 @@
 	font-weight: 600;
 	line-height: 1.05;
 	color: var(--serena-teal-dark);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
 }
 
 .admin-stat-hint {
@@ -500,11 +522,12 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	padding: 4px 11px;
-	border-radius: 999px;
+	padding: 4px 9px;
+	border-radius: var(--radius-xs);
 	font-size: 12px;
 	font-weight: 600;
 	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
 }
 
 .admin-badge-neutral {
@@ -557,6 +580,10 @@
 	background: rgba(43, 89, 94, 0.05);
 }
 
+.admin-action:active:not(:disabled) {
+	transform: scale(0.97);
+}
+
 .admin-action-danger:hover {
 	border-color: var(--serena-danger);
 	color: var(--serena-danger);
@@ -566,6 +593,20 @@
 .admin-action:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
+}
+
+/* Confirmación en línea: reemplaza al confirm() nativo */
+.admin-confirm {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.admin-confirm-text {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--serena-danger);
+	white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
@@ -661,7 +702,7 @@
 
 .admin-modal {
 	width: min(680px, 100%);
-	max-height: calc(100vh - 60px);
+	max-height: calc(100dvh - 60px);
 	overflow-y: auto;
 	background: var(--serena-white);
 	border-radius: var(--radius-lg);
@@ -737,6 +778,15 @@
 	background: var(--serena-danger);
 }
 
+.admin-image-remove:active {
+	transform: scale(0.9);
+}
+
+.admin-image-remove svg {
+	width: 12px;
+	height: 12px;
+}
+
 .admin-upload-zone {
 	display: flex;
 	flex-direction: column;
@@ -760,6 +810,34 @@
 	color: var(--serena-teal);
 }
 
+.admin-upload-zone:active {
+	transform: scale(0.97);
+}
+
+.admin-upload-zone-static {
+	cursor: default;
+	gap: 8px;
+	padding: 10px;
+}
+
+.admin-upload-zone-static span {
+	font-size: 11px;
+	line-height: 1.25;
+	word-break: break-word;
+}
+
+.admin-upload-zone-static button {
+	font-size: 11px;
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	color: var(--serena-terracotta);
+}
+
+.admin-upload-zone-static button:hover {
+	color: var(--serena-danger);
+}
+
 .admin-upload-zone svg {
 	width: 20px;
 	height: 20px;
@@ -776,6 +854,10 @@
 .admin-sale-detail {
 	background: var(--serena-paper-surface);
 	border-top: 1px solid var(--serena-linen-subtle);
+}
+
+.admin-sale-detail > td {
+	padding: 0;
 }
 
 .admin-sale-detail-inner {
@@ -845,12 +927,16 @@
 	color: var(--serena-teal);
 }
 
+.admin-table-toggle:active {
+	transform: scale(0.94);
+}
+
 /* --------------------------------------------------------------------------
    Estados
    -------------------------------------------------------------------------- */
 
 .admin-empty {
-	padding: 46px 24px;
+	padding: 48px 24px 52px;
 	text-align: center;
 	color: var(--serena-ink-muted);
 }
@@ -862,16 +948,15 @@
 	margin-bottom: 6px;
 }
 
-.admin-loading {
-	padding: 42px 24px;
-	text-align: center;
-	color: var(--serena-ink-muted);
-	font-size: 14px;
+.admin-empty p {
+	font-size: 13.5px;
+	max-width: 42ch;
+	margin-inline: auto;
 }
 
-.admin-skeleton-row {
-	height: 14px;
-	border-radius: 999px;
+.admin-skeleton {
+	display: block;
+	border-radius: var(--radius-xs);
 	background: linear-gradient(
 		90deg,
 		var(--serena-cream-soft) 25%,
@@ -879,7 +964,44 @@
 		var(--serena-cream-soft) 75%
 	);
 	background-size: 200% 100%;
-	animation: adminShimmer 1.4s ease-in-out infinite;
+	animation: adminShimmer 1.6s ease-in-out infinite;
+}
+
+.admin-skeleton-row {
+	height: 13px;
+}
+
+.admin-skeleton-rows {
+	padding: 24px 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.admin-skeleton-rows .admin-skeleton-row:nth-child(1) {
+	width: 62%;
+}
+
+.admin-skeleton-rows .admin-skeleton-row:nth-child(2) {
+	width: 88%;
+}
+
+.admin-skeleton-rows .admin-skeleton-row:nth-child(3) {
+	width: 74%;
+}
+
+.admin-skeleton-rows .admin-skeleton-row:nth-child(4) {
+	width: 92%;
+}
+
+.admin-skeleton-rows .admin-skeleton-row:nth-child(5) {
+	width: 56%;
+}
+
+.admin-skeleton-stat {
+	width: 54px;
+	height: 26px;
+	border-radius: var(--radius-sm);
 }
 
 @keyframes adminShimmer {
@@ -896,7 +1018,7 @@
    -------------------------------------------------------------------------- */
 
 .admin-login-page {
-	min-height: 100vh;
+	min-height: 100dvh;
 	display: grid;
 	place-items: center;
 	padding: 40px 20px;
@@ -906,15 +1028,27 @@
 }
 
 .admin-login-card {
+	position: relative;
+	isolation: isolate;
 	width: min(430px, 100%);
 	background: var(--serena-white);
-	border: 1px solid var(--serena-linen-subtle);
 	border-radius: var(--radius-lg);
 	box-shadow: var(--shadow-card);
-	padding: 40px 38px 34px;
+	padding: 42px 38px 36px;
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
+}
+
+.admin-login-card::before {
+	content: '';
+	position: absolute;
+	inset: 0 auto auto 0;
+	z-index: -1;
+	width: 100%;
+	height: 4px;
+	border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+	background: linear-gradient(90deg, var(--serena-teal), var(--serena-terracotta));
 }
 
 .admin-login-brand {
@@ -953,6 +1087,10 @@
 	margin: 0;
 }
 
+.admin-login-form > .form-error {
+	margin-bottom: 0;
+}
+
 .admin-login-form .primary-button {
 	width: 100%;
 	justify-content: center;
@@ -965,8 +1103,28 @@
 }
 
 .admin-login-footer a {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-weight: 600;
+	color: var(--serena-ink-muted);
 	text-decoration: underline;
 	text-underline-offset: 3px;
+	transition: color 0.2s ease;
+}
+
+.admin-login-footer a svg {
+	width: 15px;
+	height: 15px;
+	transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-login-footer a:hover {
+	color: var(--serena-terracotta);
+}
+
+.admin-login-footer a:hover svg {
+	transform: translateX(-3px);
 }
 
 /* --------------------------------------------------------------------------

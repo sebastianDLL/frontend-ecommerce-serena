@@ -110,6 +110,9 @@ Detalles de implementación:
   que Postgres devuelve como string y sube imágenes con `FormData`).
 - El guard es de cliente: es una barrera de UX, no de seguridad. La autorización real depende del
   backend (hoy sin RBAC; ver pendientes).
+- Las acciones destructivas (eliminar producto/categoría, anular venta) se confirman en línea con
+  `AdminConfirm.vue`, sin `window.confirm`. Las tablas muestran esqueletos mientras cargan y el modal
+  de producto bloquea el scroll del fondo con `useScrollLock`.
 
 Para probar el panel hace falta un usuario. Si la base no tiene ninguno, se puede crear con
 `POST /usuarios` + `POST /roles` (endpoints abiertos en el backend actual) o desde el módulo de
@@ -140,6 +143,8 @@ explícita en lugar de publicar URLs a `localhost`.
 8. Entrar a `/admin` sin sesión → redirige a `/admin/login`. Iniciar sesión → vuelve a la ruta pedida.
 9. En el panel: crear/editar/eliminar un producto (con al menos una imagen), crear una categoría y
    anular una venta; recargar → los cambios persisten y el catálogo público refleja stock/precio.
+10. Eliminar o anular pide confirmación en la misma fila (sin diálogos nativos); `Tab` muestra el
+    enlace "Saltar al contenido" y los anillos de foco también sobre el sidebar oscuro.
 
 ## Solución de problemas
 

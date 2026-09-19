@@ -66,29 +66,43 @@ function estadoBadge(venta: VentaAdmin): { label: string; className: string } {
 </script>
 
 <template>
-	<div v-if="authorized" class="admin-dashboard">
-		<div v-if="error" class="form-error">{{ error }}</div>
+	<div v-if="authorized" class="admin-dashboard admin-view">
+		<div v-if="error" class="form-error" role="alert">{{ error }}</div>
 
 		<div class="admin-stats">
 			<div class="admin-stat">
 				<span class="admin-stat-label">Productos</span>
-				<strong class="admin-stat-value">{{ loading ? '—' : productos.length }}</strong>
+				<strong class="admin-stat-value">
+					<span v-if="loading" class="admin-skeleton admin-skeleton-stat" aria-hidden="true"></span>
+					<span v-else>{{ productos.length }}</span>
+				</strong>
 				<span class="admin-stat-hint">en el catálogo activo</span>
 			</div>
 			<div class="admin-stat">
 				<span class="admin-stat-label">Stock bajo</span>
-				<strong class="admin-stat-value">{{ loading ? '—' : stockBajo.length }}</strong>
+				<strong class="admin-stat-value">
+					<span v-if="loading" class="admin-skeleton admin-skeleton-stat" aria-hidden="true"></span>
+					<span v-else>{{ stockBajo.length }}</span>
+				</strong>
 				<span class="admin-stat-hint">productos con 5 unidades o menos</span>
 			</div>
 			<div class="admin-stat">
 				<span class="admin-stat-label">Categorías</span>
-				<strong class="admin-stat-value">{{ loading ? '—' : categorias.length }}</strong>
+				<strong class="admin-stat-value">
+					<span v-if="loading" class="admin-skeleton admin-skeleton-stat" aria-hidden="true"></span>
+					<span v-else>{{ categorias.length }}</span>
+				</strong>
 				<span class="admin-stat-hint">colecciones registradas</span>
 			</div>
 			<div class="admin-stat">
 				<span class="admin-stat-label">Ventas de hoy</span>
-				<strong class="admin-stat-value">{{ loading ? '—' : ventasHoy.length }}</strong>
-				<span class="admin-stat-hint">{{ formatPrice(ingresosHoy) }} facturados hoy</span>
+				<strong class="admin-stat-value">
+					<span v-if="loading" class="admin-skeleton admin-skeleton-stat" aria-hidden="true"></span>
+					<span v-else>{{ ventasHoy.length }}</span>
+				</strong>
+				<span class="admin-stat-hint">{{
+					loading ? 'Calculando…' : `${formatPrice(ingresosHoy)} facturados hoy`
+				}}</span>
 			</div>
 		</div>
 
@@ -97,8 +111,21 @@ function estadoBadge(venta: VentaAdmin): { label: string; className: string } {
 				<h2>Últimas ventas</h2>
 				<a class="admin-button-ghost" href="/admin/ventas">Ver todas</a>
 			</div>
-			<div v-if="loading" class="admin-loading">Cargando resumen...</div>
+			<p class="sr-only" role="status">{{ loading ? 'Cargando resumen' : 'Resumen cargado' }}</p>
+
+			<div v-if="loading" class="admin-skeleton-rows" aria-hidden="true">
+				<span v-for="n in 4" :key="n" class="admin-skeleton admin-skeleton-row"></span>
+			</div>
+
 			<div v-else-if="!ventasRecientes.length" class="admin-empty">
+				<span class="empty-state-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+						<path d="M14 2v6h6"></path>
+						<path d="M9 15h6"></path>
+						<path d="M9 11h2"></path>
+					</svg>
+				</span>
 				<h3>Todavía no hay ventas</h3>
 				<p>Cuando registres la primera venta aparecerá aquí.</p>
 			</div>
@@ -137,7 +164,10 @@ function estadoBadge(venta: VentaAdmin): { label: string; className: string } {
 			<div class="admin-card-body admin-quick-links">
 				<a class="primary-button" href="/admin/productos">
 					<span>Gestionar productos</span>
-					<span>→</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<path d="M5 12h14"></path>
+						<path d="M12 5l7 7-7 7"></path>
+					</svg>
 				</a>
 				<a class="secondary-button" href="/admin/categorias">
 					<span>Categorías</span>

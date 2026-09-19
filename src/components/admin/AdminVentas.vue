@@ -4,6 +4,7 @@ import { anularVentaAdmin, fetchVentasAdmin } from '../../lib/admin-api';
 import { useAdminGuard } from '../../composables/useAdminGuard';
 import { formatDateTime, formatPrice } from '../../lib/format';
 import type { VentaAdmin } from '../../lib/types';
+import AdminConfirm from './AdminConfirm.vue';
 
 const { authorized } = useAdminGuard();
 
@@ -15,6 +16,7 @@ const query = ref('');
 const estadoFilter = ref('Todas');
 const expandedId = ref<number | null>(null);
 const anulandoId = ref<number | null>(null);
+const confirmingId = ref<number | null>(null);
 
 async function load() {
 	loading.value = true;
@@ -64,11 +66,6 @@ function estadoBadge(venta: VentaAdmin): { label: string; className: string } {
 }
 
 async function anular(venta: VentaAdmin) {
-	const confirmed = window.confirm(
-		`¿Anular la venta #${venta.codigo || venta.id}? El stock de sus productos será restaurado.`,
-	);
-	if (!confirmed) return;
-
 	anulandoId.value = venta.id;
 	error.value = '';
 
@@ -89,14 +86,15 @@ async function anular(venta: VentaAdmin) {
 		error.value = anularError instanceof Error ? anularError.message : 'No pudimos anular la venta.';
 	} finally {
 		anulandoId.value = null;
+		confirmingId.value = null;
 	}
 }
 </script>
 
 <template>
-	<div v-if="authorized" class="admin-sales">
-		<div v-if="error" class="form-error">{{ error }}</div>
-		<div v-else-if="feedback" class="admin-feedback">{{ feedback }}</div>
+	<div v-if="authorized" class="admin-sales admin-view">
+		<div v-if="error" class="form-error" role="alert">{{ error }}</div>
+		<div v-else-if="feedback" class="admin-feedback" role="status">{{ feedback }}</div>
 
 		<div class="admin-toolbar">
 			<div class="admin-search">
@@ -120,9 +118,21 @@ async function anular(venta: VentaAdmin) {
 		</div>
 
 		<div class="admin-card">
-			<div v-if="loading" class="admin-loading">Cargando ventas...</div>
+			<p class="sr-only" role="status">{{ loading ? 'Cargando ventas' : `${filtered.length} ventas` }}</p>
+
+			<div v-if="loading" class="admin-skeleton-rows" aria-hidden="true">
+				<span v-for="n in 5" :key="n" class="admin-skeleton admin-skeleton-row"></span>
+			</div>
 
 			<div v-else-if="!filtered.length" class="admin-empty">
+				<span class="empty-state-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+						<path d="M14 2v6h6"></path>
+						<path d="M9 15h6"></path>
+						<path d="M9 11h2"></path>
+					</svg>
+				</span>
 				<h3>No hay ventas que coincidan</h3>
 				<p>Ajusta la búsqueda o el filtro de estado.</p>
 			</div>
@@ -175,13 +185,23 @@ async function anular(venta: VentaAdmin) {
 								</td>
 								<td>
 									<div class="admin-table-actions">
+										<AdminConfirm
+											v-if="confirmingId === venta.id"
+											confirm-label="Sí, anular"
+											busy-label="Anulando..."
+											:busy="anulandoId === venta.id"
+											@confirm="anular(venta)"
+											@cancel="confirmingId = null"
+										/>
 										<button
+											v-else
 											class="admin-action admin-action-danger"
 											type="button"
-											:disabled="venta.estado === 'anulada' || anulandoId === venta.id"
-											@click="anular(venta)"
+											:disabled="venta.estado === 'anulada'"
+											:aria-label="`Anular la venta ${venta.codigo || venta.id}`"
+											@click="confirmingId = venta.id"
 										>
-											<span>{{ anulandoId === venta.id ? 'Anulando...' : 'Anular' }}</span>
+											<span>Anular</span>
 										</button>
 									</div>
 								</td>

@@ -8,6 +8,7 @@ import {
 } from '../../lib/admin-api';
 import { useAdminGuard } from '../../composables/useAdminGuard';
 import type { Categoria } from '../../lib/types';
+import AdminConfirm from './AdminConfirm.vue';
 
 const { authorized } = useAdminGuard();
 
@@ -23,6 +24,7 @@ const editingId = ref<number | null>(null);
 const editingName = ref('');
 const savingId = ref<number | null>(null);
 const deletingId = ref<number | null>(null);
+const confirmingId = ref<number | null>(null);
 
 async function load() {
 	loading.value = true;
@@ -106,11 +108,6 @@ async function saveEdit(categoria: Categoria) {
 }
 
 async function remove(categoria: Categoria) {
-	const confirmed = window.confirm(
-		`¿Eliminar la categoría "${categoria.nombre}"? Los productos que la usan conservarán su referencia hasta que se reasignen.`,
-	);
-	if (!confirmed) return;
-
 	deletingId.value = categoria.id;
 	error.value = '';
 
@@ -122,14 +119,15 @@ async function remove(categoria: Categoria) {
 		error.value = deleteError instanceof Error ? deleteError.message : 'No pudimos eliminar la categoría.';
 	} finally {
 		deletingId.value = null;
+		confirmingId.value = null;
 	}
 }
 </script>
 
 <template>
-	<div v-if="authorized" class="admin-categories">
-		<div v-if="error" class="form-error">{{ error }}</div>
-		<div v-else-if="feedback" class="admin-feedback">{{ feedback }}</div>
+	<div v-if="authorized" class="admin-categories admin-view">
+		<div v-if="error" class="form-error" role="alert">{{ error }}</div>
+		<div v-else-if="feedback" class="admin-feedback" role="status">{{ feedback }}</div>
 
 		<div class="admin-card">
 			<div class="admin-card-head">
@@ -157,9 +155,19 @@ async function remove(categoria: Categoria) {
 				<span class="admin-badge admin-badge-neutral">{{ categorias.length }}</span>
 			</div>
 
-			<div v-if="loading" class="admin-loading">Cargando categorías...</div>
+			<p class="sr-only" role="status">{{ loading ? 'Cargando categorías' : `${sorted.length} categorías` }}</p>
+
+			<div v-if="loading" class="admin-skeleton-rows" aria-hidden="true">
+				<span v-for="n in 4" :key="n" class="admin-skeleton admin-skeleton-row"></span>
+			</div>
 
 			<div v-else-if="!sorted.length" class="admin-empty">
+				<span class="empty-state-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+						<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"></path>
+						<circle cx="7" cy="7" r="1.6"></circle>
+					</svg>
+				</span>
 				<h3>Todavía no hay categorías</h3>
 				<p>Crea la primera para organizar el catálogo.</p>
 			</div>
@@ -200,6 +208,13 @@ async function remove(categoria: Categoria) {
 										</button>
 										<button class="admin-action" type="button" @click="cancelEdit">Cancelar</button>
 									</template>
+									<AdminConfirm
+										v-else-if="confirmingId === categoria.id"
+										:busy="deletingId === categoria.id"
+										busy-label="Eliminando..."
+										@confirm="remove(categoria)"
+										@cancel="confirmingId = null"
+									/>
 									<template v-else>
 										<button class="admin-action" type="button" @click="startEdit(categoria)">
 											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -211,15 +226,15 @@ async function remove(categoria: Categoria) {
 										<button
 											class="admin-action admin-action-danger"
 											type="button"
-											:disabled="deletingId === categoria.id"
-											@click="remove(categoria)"
+											:aria-label="`Eliminar ${categoria.nombre}`"
+											@click="confirmingId = categoria.id"
 										>
 											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
 												<path d="M3 6h18"></path>
 												<path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
 												<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
 											</svg>
-											<span>{{ deletingId === categoria.id ? 'Eliminando...' : 'Eliminar' }}</span>
+											<span>Eliminar</span>
 										</button>
 									</template>
 								</div>

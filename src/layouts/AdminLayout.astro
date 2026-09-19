@@ -41,8 +41,11 @@ const nav = [
 ---
 
 <Layout title={`${title} | Panel ${BRAND_NAME}`} description={description} robots="noindex, nofollow">
+	<a class="skip-link" href="#contenido">
+		Saltar al contenido
+	</a>
 	<div class="admin-shell">
-		<aside class="admin-sidebar">
+		<aside class="admin-sidebar dark-surface">
 			<div class="admin-brand">
 				<img src="/Original_1-8.png" alt="SERENA" />
 				<div class="admin-brand-text">
@@ -55,7 +58,11 @@ const nav = [
 				<ul class="admin-nav">
 					{nav.map((item) => (
 						<li>
-							<a href={item.href} class:list={['admin-nav-link', { active: section === item.key }]}>
+							<a
+								href={item.href}
+								class:list={['admin-nav-link', { active: section === item.key }]}
+								aria-current={section === item.key ? 'page' : undefined}
+							>
 								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" set:html={item.icon} />
 								<span>{item.label}</span>
 							</a>
@@ -95,7 +102,7 @@ const nav = [
 				</div>
 			</header>
 
-			<div class="admin-content">
+			<div class="admin-content" id="contenido">
 				<slot />
 			</div>
 		</div>

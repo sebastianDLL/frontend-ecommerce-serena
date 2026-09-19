@@ -4,6 +4,7 @@ import { eliminarProductoAdmin, fetchCategoriasAdmin, fetchProductosAdmin } from
 import { useAdminGuard } from '../../composables/useAdminGuard';
 import { formatPrice, handleImageError, productImage } from '../../lib/format';
 import type { Categoria, Producto } from '../../lib/types';
+import AdminConfirm from './AdminConfirm.vue';
 import ProductoFormModal from './ProductoFormModal.vue';
 
 const { authorized } = useAdminGuard();
@@ -18,6 +19,7 @@ const categoriaFilter = ref('Todas');
 const modalOpen = ref(false);
 const editing = ref<Producto | null>(null);
 const deletingId = ref<number | null>(null);
+const confirmingId = ref<number | null>(null);
 
 async function load() {
 	loading.value = true;
@@ -76,11 +78,6 @@ function handleSaved(producto: Producto) {
 }
 
 async function removeProducto(producto: Producto) {
-	const confirmed = window.confirm(
-		`¿Eliminar "${producto.nombre}" del catálogo? Esta acción lo oculta de la tienda (borrado lógico).`,
-	);
-	if (!confirmed) return;
-
 	deletingId.value = producto.id;
 	error.value = '';
 
@@ -88,8 +85,10 @@ async function removeProducto(producto: Producto) {
 		await eliminarProductoAdmin(producto.id);
 		productos.value = productos.value.filter((item) => item.id !== producto.id);
 		feedback.value = `Producto "${producto.nombre}" eliminado.`;
+		confirmingId.value = null;
 	} catch (deleteError) {
 		error.value = deleteError instanceof Error ? deleteError.message : 'No pudimos eliminar el producto.';
+		confirmingId.value = null;
 	} finally {
 		deletingId.value = null;
 	}
@@ -103,9 +102,9 @@ function stockBadge(producto: Producto): { label: string; className: string } {
 </script>
 
 <template>
-	<div v-if="authorized" class="admin-products">
-		<div v-if="error" class="form-error">{{ error }}</div>
-		<div v-else-if="feedback" class="admin-feedback">{{ feedback }}</div>
+	<div v-if="authorized" class="admin-products admin-view">
+		<div v-if="error" class="form-error" role="alert">{{ error }}</div>
+		<div v-else-if="feedback" class="admin-feedback" role="status">{{ feedback }}</div>
 
 		<div class="admin-toolbar">
 			<div class="admin-search">
@@ -125,17 +124,30 @@ function stockBadge(producto: Producto): { label: string; className: string } {
 				</select>
 
 				<button class="primary-button" type="button" @click="openCreate">
-					<span>+ Nuevo producto</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+						<line x1="12" y1="5" x2="12" y2="19"></line>
+						<line x1="5" y1="12" x2="19" y2="12"></line>
+					</svg>
+					<span>Nuevo producto</span>
 				</button>
 			</div>
 		</div>
 
 		<div class="admin-card">
-			<div v-if="loading" class="admin-card-body">
-				<div class="admin-loading">Cargando productos...</div>
+			<p class="sr-only" role="status">{{ loading ? 'Cargando productos' : `${filtered.length} productos` }}</p>
+
+			<div v-if="loading" class="admin-skeleton-rows" aria-hidden="true">
+				<span v-for="n in 5" :key="n" class="admin-skeleton admin-skeleton-row"></span>
 			</div>
 
 			<div v-else-if="!filtered.length" class="admin-empty">
+				<span class="empty-state-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+						<circle cx="11" cy="11" r="7"></circle>
+						<line x1="20.5" y1="20.5" x2="16.2" y2="16.2"></line>
+						<line x1="8.5" y1="11" x2="13.5" y2="11"></line>
+					</svg>
+				</span>
 				<h3>No hay productos que coincidan</h3>
 				<p>Prueba con otro término o crea un producto nuevo.</p>
 			</div>
@@ -180,26 +192,35 @@ function stockBadge(producto: Producto): { label: string; className: string } {
 							<td class="admin-numeric">{{ producto.imagenes?.length ?? 0 }}</td>
 							<td>
 								<div class="admin-table-actions">
-									<button class="admin-action" type="button" @click="openEdit(producto)">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-											<path d="M12 20h9"></path>
-											<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"></path>
-										</svg>
-										<span>Editar</span>
-									</button>
-									<button
-										class="admin-action admin-action-danger"
-										type="button"
-										:disabled="deletingId === producto.id"
-										@click="removeProducto(producto)"
-									>
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-											<path d="M3 6h18"></path>
-											<path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
-											<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-										</svg>
-										<span>{{ deletingId === producto.id ? 'Eliminando...' : 'Eliminar' }}</span>
-									</button>
+									<AdminConfirm
+										v-if="confirmingId === producto.id"
+										:busy="deletingId === producto.id"
+										busy-label="Eliminando..."
+										@confirm="removeProducto(producto)"
+										@cancel="confirmingId = null"
+									/>
+									<template v-else>
+										<button class="admin-action" type="button" @click="openEdit(producto)">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+												<path d="M12 20h9"></path>
+												<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+											</svg>
+											<span>Editar</span>
+										</button>
+										<button
+											class="admin-action admin-action-danger"
+											type="button"
+											:aria-label="`Eliminar ${producto.nombre}`"
+											@click="confirmingId = producto.id"
+										>
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+												<path d="M3 6h18"></path>
+												<path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+												<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+											</svg>
+											<span>Eliminar</span>
+										</button>
+									</template>
 								</div>
 							</td>
 						</tr>

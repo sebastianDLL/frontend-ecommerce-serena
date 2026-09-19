@@ -49,7 +49,7 @@ async function submit() {
 			</div>
 
 			<form class="admin-login-form" @submit.prevent="submit">
-				<div v-if="error" class="form-error">{{ error }}</div>
+				<div v-if="error" class="form-error" role="alert">{{ error }}</div>
 
 				<div class="form-group">
 					<label for="admin-user">Usuario</label>
@@ -87,7 +87,13 @@ async function submit() {
 			</form>
 
 			<p class="admin-login-footer">
-				<a href="/">← Volver a la tienda</a>
+				<a href="/">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<path d="M19 12H5"></path>
+						<path d="M12 19l-7-7 7-7"></path>
+					</svg>
+					Volver a la tienda
+				</a>
 			</p>
 		</div>
 	</div>

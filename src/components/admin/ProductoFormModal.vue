@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { actualizarProductoAdmin, crearProductoAdmin, subirImagenesProducto } from '../../lib/admin-api';
+import { useScrollLock } from '../../composables/useScrollLock';
 import { imageUrl } from '../../lib/format';
 import type { Categoria, Producto, ProductoInput } from '../../lib/types';
 
@@ -19,6 +20,8 @@ const fileInput = ref<HTMLInputElement | null>(null);
 
 const isEditing = computed(() => Boolean(props.producto));
 const title = computed(() => (isEditing.value ? 'Editar producto' : 'Nuevo producto'));
+
+useScrollLock();
 
 watch(
 	() => props.producto,
@@ -147,7 +150,7 @@ async function save() {
 				<button class="close-button" type="button" aria-label="Cerrar" @click="emit('close')">×</button>
 			</div>
 
-			<div v-if="error" class="form-error">{{ error }}</div>
+			<div v-if="error" class="form-error" role="alert">{{ error }}</div>
 
 			<div class="admin-form-grid">
 				<div class="form-group admin-form-span">
@@ -204,14 +207,17 @@ async function save() {
 								:aria-label="`Quitar imagen ${index + 1}`"
 								@click="removeExisting(index)"
 							>
-								×
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+									<line x1="6" y1="6" x2="18" y2="18"></line>
+									<line x1="18" y1="6" x2="6" y2="18"></line>
+								</svg>
 							</button>
 						</div>
 
 						<div v-for="(file, index) in pendingFiles" :key="file.name + index" class="admin-image-item">
-							<div class="admin-upload-zone" style="cursor: default">
+							<div class="admin-upload-zone admin-upload-zone-static">
 								<span>{{ file.name }}</span>
-								<button type="button" style="text-decoration: underline" @click="removePending(index)">Quitar</button>
+								<button type="button" @click="removePending(index)">Quitar</button>
 							</div>
 						</div>
 
